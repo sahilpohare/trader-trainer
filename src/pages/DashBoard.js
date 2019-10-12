@@ -3,15 +3,16 @@ import Sidebar from '../components/Sidebar'
 import './DashBoard.css'
 import {connect} from 'react-redux';
 import {store} from '../StateManagement/store'
-import { Card } from 'react-bootstrap';
-
+import { Card, Button, ButtonGroup } from 'react-bootstrap';
+import * as stockDataActions from '../StateManagement/actions/stockDataActions'
+import ChartComponent from '../components/ChartComponent';
 export class DashBoard extends Component {
     constructor(props){
         super(props);
     }
 
     componentWillMount(){
-        
+        store.dispatch(stockDataActions.retriveData({symbol : 'AAPL'}));
     }
 
     render() {
@@ -24,6 +25,11 @@ export class DashBoard extends Component {
                         <h3>Credits : <span className="text-success">{this.props.credits}</span></h3>
                     </div>
                     <Card>
+                        <ChartComponent></ChartComponent>
+                        <ButtonGroup>
+                            <Button onClick={(e)=>{store.dispatch(stockDataActions.move(9))}}>Move</Button>
+                            <Button onClick={(e)=>{store.dispatch(stockDataActions.addEntry(1))}}>Add</Button>
+                        </ButtonGroup>
                     </Card>
                 </div>
             </div>
